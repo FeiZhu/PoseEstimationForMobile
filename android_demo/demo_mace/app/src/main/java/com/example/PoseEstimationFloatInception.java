@@ -82,7 +82,7 @@ public class PoseEstimationFloatInception extends PoseEstimation {
 
         //先进行高斯滤波,5*5
         if (mMat == null)
-            mMat = new Mat(96, 96, CvType.CV_32F);
+            mMat = new Mat(getOutputSizeX(), getOutputSizeY(), CvType.CV_32F);
 
         float[] tempArray = new float[getOutputSizeY() * getOutputSizeX()];
         float[] outTempArray = new float[getOutputSizeY() * getOutputSizeX()];
@@ -91,8 +91,8 @@ public class PoseEstimationFloatInception extends PoseEstimation {
 
         for (int i = 0; i < 14; i++) {
             int index = 0;
-            for (int x = 0; x < 96; x++) {
-                for (int y = 0; y < 96; y++) {
+            for (int x = 0; x < getOutputSizeX(); x++) {
+                for (int y = 0; y < getOutputSizeY(); y++) {
                     tempArray[index] = result[x * getOutputSizeY() * 14 + y * 14 + i];
                     index++;
                 }
@@ -125,6 +125,7 @@ public class PoseEstimationFloatInception extends PoseEstimation {
                 return;
             }
 
+            //transform to image coordinate system for rendering
             mPrintPointArray[0][i] = maxY;
             mPrintPointArray[1][i] = maxX;
         }
@@ -135,6 +136,6 @@ public class PoseEstimationFloatInception extends PoseEstimation {
     private float get(int x, int y, float[] arr) {
         if (x < 0 || y < 0 || x >= getOutputSizeX() || y >= getOutputSizeY())
             return -1;
-        return arr[x * getOutputSizeX() + y];
+        return arr[x * getOutputSizeY() + y];
     }
 }
