@@ -93,7 +93,7 @@ public abstract class PoseEstimation {
             return;
         }
         floatBuffer.rewind();
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight()); //get pixels in row order
         // Convert the image to floating point.
         int pixel = 0;
         long startTime = SystemClock.uptimeMillis();
@@ -106,6 +106,10 @@ public abstract class PoseEstimation {
         long endTime = SystemClock.uptimeMillis();
         Log.d(TAG, "Timecost to put values into ByteBuffer: " + Long.toString(endTime - startTime));
     }
+    
+    /**
+     * Note on the coordinate system: x axis is row, y axis is col, origin is at top-left corner
+     */
 
 
     /**
